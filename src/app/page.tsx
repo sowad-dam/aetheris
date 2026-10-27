@@ -168,26 +168,22 @@ export default function Home() {
   };
 
   return (
-    // FIXED OUTER SHELL: Support Dynamic Viewport Height (dvh) for iOS Safari
     <div
       id="framed-root"
       className="w-full min-h-screen min-h-dvh h-screen h-dvh overflow-hidden bg-[#050508] flex items-center justify-center p-1.5 sm:p-4 lg:p-6 select-none"
     >
-      {/* Centralized Frame */}
       <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[20px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
-        {/* Ambient Backlights */}
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Scaled and repositioned conditionally for mobile/tablet */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame opacity-60 md:opacity-100 transition-opacity">
+        {/* 3D CANVAS: Mobile-e ektu upore ebong scale adjusted */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame md:opacity-100 transition-all -translate-y-12 sm:-translate-y-8 md:translate-y-0 scale-90 sm:scale-95 md:scale-100">
           <Hero3DObject />
         </div>
 
-        {/* LIQUID GLASS PILL HEADER BAR */}
+        {/* HEADER BAR */}
         <div className="absolute top-3 sm:top-5 left-0 right-0 z-40 px-3 sm:px-8 flex justify-center pointer-events-none">
           <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-4 sm:px-7 py-2.5 flex items-center justify-between">
-            {/* Brand Logo */}
             <div
               onClick={() => scrollTo('hero')}
               className="flex items-center gap-2 cursor-pointer group"
@@ -198,7 +194,6 @@ export default function Home() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] inline-block mb-1 shadow-[0_0_8px_#ff0055]" />
             </div>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8 lg:gap-10 font-outfit text-xs font-semibold tracking-[0.2em]">
               {[
                 { id: 'overview', label: 'OVERVIEW' },
@@ -218,7 +213,6 @@ export default function Home() {
               ))}
             </nav>
 
-            {/* Consultation Pill */}
             <div className="flex items-center">
               <button
                 onClick={() => scrollTo('architecture')}
@@ -232,25 +226,25 @@ export default function Home() {
           </header>
         </div>
 
-        {/* SCROLLABLE INTERNAL CONTAINER */}
+        {/* SCROLLABLE CONTAINER */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="relative z-20 w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth framed-scroll pt-20 sm:pt-28"
+          className="relative z-20 w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth framed-scroll pt-16 sm:pt-28"
         >
           {/* SECTION 1: HERO VIEWPORT */}
           <section
             id="hero"
-            className="relative w-full min-h-[calc(100dvh-5.5rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-8 sm:pb-10 px-4 sm:px-12 lg:px-16 overflow-hidden select-none"
+            className="relative w-full min-h-[calc(100dvh-4.5rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-6 sm:pb-10 px-4 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* Backdrop Typography: Fluid clamping prevents side clipping */}
-            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-4">
-              <h1 className="reference-backdrop-text text-[15vw] sm:text-[14vw] lg:text-[170px] whitespace-nowrap tracking-tighter opacity-15 select-none font-black text-center max-w-full">
+            {/* Backdrop Typography: Mobile-e fits perfectly */}
+            <div className="absolute inset-x-0 top-1/4 sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-2">
+              <h1 className="reference-backdrop-text text-[11vw] sm:text-[14vw] lg:text-[170px] tracking-tight sm:tracking-normal whitespace-nowrap opacity-15 select-none font-black text-center max-w-full">
                 AETHERIS
               </h1>
             </div>
 
-            {/* Margin Metadata (Desktop Only) */}
+            {/* Margin Metadata (Desktop) */}
             <div className="absolute left-6 top-1/2 -translate-y-1/2 z-20 hidden lg:flex items-center pointer-events-none">
               <span className="vertical-year-text">2026 // SYSTEM V4.8</span>
             </div>
@@ -260,11 +254,11 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Spacing element for 3D stage */}
-            <div className="flex-1 w-full min-h-[160px] sm:min-h-[220px]" />
+            {/* Mobile-e stage height adjust kora hoyeche jate robot dekha jay */}
+            <div className="flex-1 w-full min-h-[220px] sm:min-h-[260px] md:min-h-[220px]" />
 
-            {/* Hero Bottom Information Bar */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-5 sm:gap-6 bg-gradient-to-t from-[#08080c] via-[#08080c]/85 to-transparent md:bg-transparent p-4 md:p-0 rounded-2xl md:rounded-none backdrop-blur-sm md:backdrop-blur-none border border-white/5 md:border-none">
+            {/* Bottom Hero Card */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-4 sm:gap-6 bg-black/60 md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-md md:backdrop-blur-none border border-white/10 md:border-none shadow-xl md:shadow-none">
               <div className="max-w-xl">
                 <div className="flex items-center gap-2 mb-2 text-[10px] sm:text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
@@ -295,10 +289,10 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SECTION 2: OVERVIEW & CORE CAPABILITIES */}
+          {/* SECTION 2: OVERVIEW */}
           <section
             id="overview"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
           >
             <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -319,7 +313,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Frosted Liquid Glass Cards */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {CAPABILITIES.map((cap) => (
                   <div
@@ -394,10 +387,10 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SECTION 3: FLAGSHIP ENTERPRISE SOLUTIONS */}
+          {/* SECTION 3: SOLUTIONS */}
           <section
             id="solutions"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
           >
             <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -418,7 +411,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Solution Cards */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {SOLUTIONS.map((sol) => (
                   <div
@@ -467,13 +459,12 @@ export default function Home() {
             </div>
           </section>
 
-          {/* SECTION 4: ARCHITECTURE REVIEW & CONSULTATION */}
+          {/* SECTION 4: ARCHITECTURE & CONSULTATION */}
           <section
             id="architecture"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
           >
             <div className="max-w-5xl mx-auto w-full flex flex-col gap-10 sm:gap-14">
-              {/* Verified Metrics Row */}
               <div>
                 <div className="text-center max-w-xl mx-auto mb-8">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
@@ -513,7 +504,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Consultation Booking Card */}
               <div className="apple-glass-card p-6 sm:p-12 relative overflow-hidden">
                 <div className="text-center mb-8 sm:mb-10 relative z-10">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
@@ -562,7 +552,6 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Fleet Scale Selection */}
                     <div>
                       <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
                         Target Autonomous Fleet Scale
@@ -588,7 +577,6 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Deployment Environment */}
                     <div>
                       <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
                         Preferred Infrastructure Target
@@ -606,7 +594,6 @@ export default function Home() {
                       </select>
                     </div>
 
-                    {/* Action Button */}
                     <div className="pt-2">
                       <button
                         type="submit"
@@ -675,7 +662,6 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Compliance Badges */}
                 <div className="relative z-10 mt-8 sm:mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center font-space text-xs text-[#94a3b8]">
                   {TRUST_BADGES.map(({ icon: Icon, label, sub }) => (
                     <div key={label} className="flex flex-col items-center gap-1">
