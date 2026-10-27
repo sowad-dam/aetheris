@@ -10,14 +10,9 @@ import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
 import { scrollState } from '@/lib/scrollState';
 
-// GPU Optimized 3D Object with fallback loader for fast initial paint
 const Hero3DObject = dynamic(() => import('@/components/canvas/Hero3DObject'), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center opacity-20 pointer-events-none">
-      <div className="w-10 h-10 border-2 border-white/20 border-t-[#ff0055] rounded-full animate-spin" />
-    </div>
-  ),
+  loading: () => null,
 });
 
 const CAPABILITIES = [
@@ -180,8 +175,8 @@ export default function Home() {
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Optimized positioning and hardware acceleration */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-transform duration-300 will-change-transform transform-gpu -translate-y-24 sm:-translate-y-8 md:translate-y-0 scale-[0.74] sm:scale-95 md:scale-100">
+        {/* 3D CANVAS: Optimized - Mobile/Samsung-e model ektu upore scale down */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-transform duration-300 transform-gpu -translate-y-28 sm:-translate-y-8 md:translate-y-0 scale-[0.72] sm:scale-95 md:scale-100">
           <Suspense fallback={null}>
             <Hero3DObject />
           </Suspense>
@@ -243,9 +238,9 @@ export default function Home() {
             id="hero"
             className="relative w-full min-h-[calc(100dvh-4.2rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-4 sm:pb-10 px-3 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* 1. Backdrop Typography: Pure centered fit for 360px Samsung to 4K desktop */}
-            <div className="absolute inset-x-0 top-[22%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none px-2 select-none overflow-hidden">
-              <h1 className="reference-backdrop-text text-[clamp(28px,7.8vw,170px)] tracking-tight whitespace-nowrap opacity-20 font-black text-center max-w-full">
+            {/* 1. Backdrop Typography: SAMSUNG-SPECIFIC LEFT-STICK REDESIGN */}
+            <div className="absolute inset-x-0 top-[18%] sm:top-1/3 flex items-center max-[420px]:justify-start justify-center z-10 pointer-events-none px-3 select-none overflow-hidden">
+              <h1 className="reference-backdrop-text max-[420px]:text-left max-[420px]:text-3xl max-[420px]:font-mono max-[420px]:tracking-[0.35em] max-[420px]:opacity-40 max-[420px]:text-[#ff0055]/30 text-[clamp(28px,7.8vw,170px)] tracking-tight whitespace-nowrap opacity-20 font-black text-center max-w-full">
                 AETHERIS
               </h1>
             </div>
@@ -260,14 +255,14 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Stage spacing */}
+            {/* Spacing for 3D stage */}
             <div className="flex-1 w-full min-h-[190px] sm:min-h-[240px] md:min-h-[220px]" />
 
-            {/* 2. Glass Card: Ultra crisp frosted glass effect with high contrast */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-black/40 md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-2xl md:backdrop-blur-none border border-white/15 md:border-none shadow-[0_12px_40px_rgba(0,0,0,0.85)] md:shadow-none">
+            {/* 2. REAL APPLE GLASSMORPHISM CONTAINER */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-white/[0.04] md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-3xl md:backdrop-blur-none border border-white/15 md:border-none shadow-[0_15px_45px_rgba(0,0,0,0.85)] md:shadow-none">
               <div className="max-w-xl w-full">
-                {/* Micro Pill Badge */}
-                <div className="inline-flex items-center gap-1.5 mb-2.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-md">
+                {/* Autonomous Systems Badge */}
+                <div className="inline-flex items-center gap-1.5 mb-2.5 px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/20 backdrop-blur-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
                   <span className="text-[9px] sm:text-[11px] font-space tracking-wider uppercase font-semibold text-white/95">
                     AUTONOMOUS SYSTEMS // ARCHITECTURE
