@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import {
   Play, ArrowRight, ShieldCheck, Cpu, Lock, Server, FileText, CheckCircle2, RotateCcw, TrendingUp,
@@ -10,9 +10,14 @@ import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
 import { scrollState } from '@/lib/scrollState';
 
+// GPU Optimized 3D Object with fallback loader for fast initial paint
 const Hero3DObject = dynamic(() => import('@/components/canvas/Hero3DObject'), {
   ssr: false,
-  loading: () => null,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center opacity-20 pointer-events-none">
+      <div className="w-10 h-10 border-2 border-white/20 border-t-[#ff0055] rounded-full animate-spin" />
+    </div>
+  ),
 });
 
 const CAPABILITIES = [
@@ -175,9 +180,11 @@ export default function Home() {
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Desktop e exact ager moto, mobile/samsung-e top e thakbe */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-all -translate-y-28 sm:-translate-y-8 md:translate-y-0 scale-[0.72] sm:scale-95 md:scale-100">
-          <Hero3DObject />
+        {/* 3D CANVAS: Optimized positioning and hardware acceleration */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-transform duration-300 will-change-transform transform-gpu -translate-y-24 sm:-translate-y-8 md:translate-y-0 scale-[0.74] sm:scale-95 md:scale-100">
+          <Suspense fallback={null}>
+            <Hero3DObject />
+          </Suspense>
         </div>
 
         {/* Header Bar */}
@@ -236,9 +243,9 @@ export default function Home() {
             id="hero"
             className="relative w-full min-h-[calc(100dvh-4.2rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-4 sm:pb-10 px-3 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* 1. Backdrop Typography: Fixed spacing for Samsung 360px without cutting */}
-            <div className="absolute inset-x-0 top-[18%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-1">
-              <h1 className="reference-backdrop-text text-[8.5vw] sm:text-[13vw] lg:text-[170px] tracking-tight whitespace-nowrap opacity-20 select-none font-black text-center max-w-full">
+            {/* 1. Backdrop Typography: Pure centered fit for 360px Samsung to 4K desktop */}
+            <div className="absolute inset-x-0 top-[22%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none px-2 select-none overflow-hidden">
+              <h1 className="reference-backdrop-text text-[clamp(28px,7.8vw,170px)] tracking-tight whitespace-nowrap opacity-20 font-black text-center max-w-full">
                 AETHERIS
               </h1>
             </div>
@@ -253,14 +260,14 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Robot View Space: Ensures robot body stays above the text */}
-            <div className="flex-1 w-full min-h-[200px] sm:min-h-[240px] md:min-h-[220px]" />
+            {/* Stage spacing */}
+            <div className="flex-1 w-full min-h-[190px] sm:min-h-[240px] md:min-h-[220px]" />
 
-            {/* 2 & 3. Hero Bottom Container: Dedicated Card Layout with separate pill box */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-[#08080c]/95 md:bg-transparent p-3.5 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-2xl md:backdrop-blur-none border border-white/10 md:border-none shadow-[0_15px_35px_rgba(0,0,0,0.9)] md:shadow-none">
+            {/* 2. Glass Card: Ultra crisp frosted glass effect with high contrast */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-black/40 md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-2xl md:backdrop-blur-none border border-white/15 md:border-none shadow-[0_12px_40px_rgba(0,0,0,0.85)] md:shadow-none">
               <div className="max-w-xl w-full">
-                {/* ALADA BOX/BADGE for "AUTONOMOUS SYSTEMS // ARCHITECTURE" */}
-                <div className="inline-flex items-center gap-2 mb-2 px-2.5 py-1 rounded-lg bg-white/[0.05] border border-[#ff0055]/30">
+                {/* Micro Pill Badge */}
+                <div className="inline-flex items-center gap-1.5 mb-2.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
                   <span className="text-[9px] sm:text-[11px] font-space tracking-wider uppercase font-semibold text-white/95">
                     AUTONOMOUS SYSTEMS // ARCHITECTURE
@@ -270,7 +277,7 @@ export default function Home() {
                 <h2 className="font-outfit text-base sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
                   ENGINEERING SELF-GOVERNING ENTERPRISE INTELLIGENCE.
                 </h2>
-                <p className="font-outfit text-[11px] sm:text-sm text-[#94a3b8] leading-relaxed">
+                <p className="font-outfit text-[11px] sm:text-sm text-[#cbd5e1] leading-relaxed">
                   We build custom multi-agent frameworks, proprietary LLM automation pipelines, and high-performance spatial digital products for market leaders.
                 </p>
               </div>
