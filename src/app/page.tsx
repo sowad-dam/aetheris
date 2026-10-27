@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, Suspense } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import {
   Play, ArrowRight, ShieldCheck, Cpu, Lock, Server, FileText, CheckCircle2, RotateCcw, TrendingUp,
@@ -107,6 +107,7 @@ const TRUST_BADGES = [
 export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null!);
   const [activeNav, setActiveNav] = useState('overview');
+  const [heroOpacity, setHeroOpacity] = useState(1);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -122,6 +123,10 @@ export default function Home() {
     const max = scrollHeight - clientHeight;
     const p = max > 0 ? scrollTop / max : 0;
     scrollState.progress = p;
+
+    // Smooth disappearance for hero logo on mobile scroll down
+    const newOpacity = Math.max(0, 1 - scrollTop / 240);
+    setHeroOpacity(newOpacity);
 
     const nextNav = p < 0.25 ? 'home' : p < 0.55 ? 'overview' : p < 0.8 ? 'solutions' : 'architecture';
     setActiveNav((prev) => (prev !== nextNav ? nextNav : prev));
@@ -171,18 +176,16 @@ export default function Home() {
       id="framed-root"
       className="w-full min-h-screen min-h-dvh h-screen h-dvh overflow-hidden bg-[#050508] flex items-center justify-center p-1 sm:p-4 lg:p-6 select-none"
     >
-      <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[18px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
+      <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[20px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Optimized - Mobile/Samsung-e model ektu upore scale down */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-transform duration-300 transform-gpu -translate-y-28 sm:-translate-y-8 md:translate-y-0 scale-[0.72] sm:scale-95 md:scale-100">
-          <Suspense fallback={null}>
-            <Hero3DObject />
-          </Suspense>
+        {/* 3D CANVAS */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-transform duration-300 transform-gpu -translate-y-24 sm:-translate-y-6 md:translate-y-0 scale-[0.74] sm:scale-95 md:scale-100">
+          <Hero3DObject />
         </div>
 
-        {/* Header Bar */}
+        {/* HEADER BAR */}
         <div className="absolute top-2.5 sm:top-5 left-0 right-0 z-40 px-2.5 sm:px-8 flex justify-center pointer-events-none">
           <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-3.5 sm:px-7 py-2 sm:py-2.5 flex items-center justify-between">
             <div
@@ -227,7 +230,7 @@ export default function Home() {
           </header>
         </div>
 
-        {/* Scrollable Container */}
+        {/* SCROLLABLE VIEWPORT */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
@@ -236,13 +239,26 @@ export default function Home() {
           {/* SECTION 1: HERO VIEWPORT */}
           <section
             id="hero"
-            className="relative w-full min-h-[calc(100dvh-4.2rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-4 sm:pb-10 px-3 sm:px-12 lg:px-16 overflow-hidden select-none"
+            className="relative w-full min-h-[calc(100dvh-4.5rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-3 sm:pb-8 px-3.5 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* 1. Backdrop Typography: SAMSUNG-SPECIFIC LEFT-STICK REDESIGN */}
-            <div className="absolute inset-x-0 top-[18%] sm:top-1/3 flex items-center max-[420px]:justify-start justify-center z-10 pointer-events-none px-3 select-none overflow-hidden">
-              <h1 className="reference-backdrop-text max-[420px]:text-left max-[420px]:text-3xl max-[420px]:font-mono max-[420px]:tracking-[0.35em] max-[420px]:opacity-40 max-[420px]:text-[#ff0055]/30 text-[clamp(28px,7.8vw,170px)] tracking-tight whitespace-nowrap opacity-20 font-black text-center max-w-full">
+            {/* Desktop-only Massive Backdrop (Mobile theke baje text baad) */}
+            <div className="hidden md:flex absolute inset-0 items-center justify-center z-10 pointer-events-none">
+              <h1 className="reference-backdrop-text text-[150px] lg:text-[170px] select-none opacity-15">
                 AETHERIS
               </h1>
+            </div>
+
+            {/* Mobile Animated Minimal Logo Box (Scroll down korle disappear hoye jay) */}
+            <div
+              style={{ opacity: heroOpacity }}
+              className="md:hidden absolute top-4 inset-x-0 flex items-center justify-center z-10 pointer-events-none transition-opacity duration-200"
+            >
+              <div className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-xl flex items-center gap-2 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055]" />
+                <span className="font-outfit text-[10px] tracking-[0.28em] text-white/80 font-bold uppercase">
+                  AETHERIS CORE // 2026
+                </span>
+              </div>
             </div>
 
             {/* Desktop margin metadata */}
@@ -255,21 +271,20 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Spacing for 3D stage */}
-            <div className="flex-1 w-full min-h-[190px] sm:min-h-[240px] md:min-h-[220px]" />
+            {/* Responsive stage flex spacer - dead space prevents bottom empty area */}
+            <div className="flex-1 w-full min-h-[160px] sm:min-h-[220px]" />
 
-            {/* 2. REAL APPLE GLASSMORPHISM CONTAINER */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-white/[0.04] md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-3xl md:backdrop-blur-none border border-white/15 md:border-none shadow-[0_15px_45px_rgba(0,0,0,0.85)] md:shadow-none">
+            {/* Bottom Hero Glass Card */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3 sm:gap-6 bg-white/[0.04] md:bg-transparent p-3.5 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-3xl md:backdrop-blur-none border border-white/15 md:border-none shadow-[0_15px_45px_rgba(0,0,0,0.9)] md:shadow-none mb-1 sm:mb-0">
               <div className="max-w-xl w-full">
-                {/* Autonomous Systems Badge */}
-                <div className="inline-flex items-center gap-1.5 mb-2.5 px-2.5 py-1 rounded-full bg-white/[0.08] border border-white/20 backdrop-blur-md">
+                <div className="inline-flex items-center gap-1.5 mb-2 px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-md">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
                   <span className="text-[9px] sm:text-[11px] font-space tracking-wider uppercase font-semibold text-white/95">
                     AUTONOMOUS SYSTEMS // ARCHITECTURE
                   </span>
                 </div>
 
-                <h2 className="font-outfit text-base sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
+                <h2 className="font-outfit text-base sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-1.5 sm:mb-2">
                   ENGINEERING SELF-GOVERNING ENTERPRISE INTELLIGENCE.
                 </h2>
                 <p className="font-outfit text-[11px] sm:text-sm text-[#cbd5e1] leading-relaxed">
@@ -295,7 +310,7 @@ export default function Home() {
           {/* SECTION 2: OVERVIEW */}
           <section
             id="overview"
-            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
+            className="relative w-full py-12 sm:py-24 px-3.5 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
             <div className="max-w-6xl mx-auto flex flex-col gap-8 sm:gap-12">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6">
@@ -321,7 +336,7 @@ export default function Home() {
                   <div
                     key={cap.num}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-5 sm:p-8 flex flex-col justify-between group"
+                    className="p-5 sm:p-8 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.6)] flex flex-col justify-between group transition-all hover:border-white/20"
                   >
                     <div>
                       <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-3 sm:mb-4">
@@ -393,7 +408,7 @@ export default function Home() {
           {/* SECTION 3: SOLUTIONS */}
           <section
             id="solutions"
-            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
+            className="relative w-full py-12 sm:py-24 px-3.5 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
             <div className="max-w-6xl mx-auto flex flex-col gap-8 sm:gap-12">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6">
@@ -419,7 +434,7 @@ export default function Home() {
                   <div
                     key={sol.code}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-5 sm:p-8 flex flex-col justify-between group"
+                    className="p-5 sm:p-8 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.6)] flex flex-col justify-between group transition-all hover:border-white/20"
                   >
                     <div>
                       <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-3">
@@ -465,7 +480,7 @@ export default function Home() {
           {/* SECTION 4: ARCHITECTURE & CONSULTATION */}
           <section
             id="architecture"
-            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
+            className="relative w-full py-12 sm:py-24 px-3.5 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
             <div className="max-w-5xl mx-auto w-full flex flex-col gap-8 sm:gap-14">
               <div>
@@ -485,7 +500,7 @@ export default function Home() {
                     return (
                       <div
                         key={idx}
-                        className="apple-glass-card p-3.5 sm:p-6 flex flex-col justify-between"
+                        className="p-3.5 sm:p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-2xl flex flex-col justify-between"
                       >
                         <div>
                           <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-2 sm:mb-3 text-[#ff0055]">
@@ -507,7 +522,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="apple-glass-card p-5 sm:p-12 relative overflow-hidden">
+              {/* Consultation Booking Card */}
+              <div className="p-5 sm:p-12 rounded-3xl bg-white/[0.04] border border-white/15 backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,0,0,0.85)] relative overflow-hidden">
                 <div className="text-center mb-6 sm:mb-10 relative z-10">
                   <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#ff0055] font-semibold mb-2.5 sm:mb-3">
                     <Lock className="w-3 h-3 text-[#ff0055]" />
@@ -679,7 +695,7 @@ export default function Home() {
           </section>
 
           {/* FOOTER */}
-          <footer className="relative z-30 border-t border-white/5 py-6 sm:py-10 px-3 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8]">
+          <footer className="relative z-30 border-t border-white/5 py-6 sm:py-10 px-3.5 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8]">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
               <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#ff0055] to-white p-[1px] flex items-center justify-center">
