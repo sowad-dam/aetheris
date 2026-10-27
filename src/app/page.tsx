@@ -109,7 +109,6 @@ export default function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null!);
   const [activeNav, setActiveNav] = useState('overview');
 
-  // Consultation Form State
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [fleet, setFleet] = useState(FLEET_SCALES[1]);
@@ -118,7 +117,6 @@ export default function Home() {
   const [booked, setBooked] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
 
-  // Track scroll progress inside the framed container (direct ref mutation for 60 FPS)
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
@@ -126,7 +124,6 @@ export default function Home() {
     const p = max > 0 ? scrollTop / max : 0;
     scrollState.progress = p;
 
-    // Update active nav based on scroll position only when threshold changes
     const nextNav = p < 0.25 ? 'home' : p < 0.55 ? 'overview' : p < 0.8 ? 'solutions' : 'architecture';
     setActiveNav((prev) => (prev !== nextNav ? nextNav : prev));
   };
@@ -171,37 +168,37 @@ export default function Home() {
   };
 
   return (
-    // ── FIXED OUTER SHELL: Pure matte Jet Black (#050508) that NEVER scrolls ──
+    // FIXED OUTER SHELL: Support Dynamic Viewport Height (dvh) for iOS Safari
     <div
       id="framed-root"
-      className="w-screen h-screen overflow-hidden bg-[#050508] flex items-center justify-center p-2 sm:p-4 lg:p-6 select-none"
+      className="w-full min-h-screen min-h-dvh h-screen h-dvh overflow-hidden bg-[#050508] flex items-center justify-center p-1.5 sm:p-4 lg:p-6 select-none"
     >
-      {/* ── FRAMED DESKTOP CANVAS: Centralized Rounded Floating Window/Frame (Hardware-Composited Layer) ── */}
-      <div className="w-[96vw] sm:w-[95vw] max-w-[1720px] h-[95vh] sm:h-[92vh] my-auto mx-auto rounded-[24px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
-        {/* Subtle Ambient Backlights inside Frame */}
+      {/* Centralized Frame */}
+      <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[20px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
+        {/* Ambient Backlights */}
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* ── FIXED 3D CHOREOGRAPHED CANVAS (Permanent Bot with Dual-Animation Binding) ── */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame">
+        {/* 3D CANVAS: Scaled and repositioned conditionally for mobile/tablet */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame opacity-60 md:opacity-100 transition-opacity">
           <Hero3DObject />
         </div>
 
-        {/* ── TRUE APPLE-GRADE LIQUID GLASS PILL HEADER BAR (Hardware-Composited, GPU Cached) ── */}
-        <div className="absolute top-4 sm:top-5 left-0 right-0 z-40 px-4 sm:px-8 flex justify-center pointer-events-none">
-          <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-5 sm:px-7 py-2.5 flex items-center justify-between">
-            {/* Left: Brand Logo */}
+        {/* LIQUID GLASS PILL HEADER BAR */}
+        <div className="absolute top-3 sm:top-5 left-0 right-0 z-40 px-3 sm:px-8 flex justify-center pointer-events-none">
+          <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-4 sm:px-7 py-2.5 flex items-center justify-between">
+            {/* Brand Logo */}
             <div
               onClick={() => scrollTo('hero')}
-              className="flex items-center gap-2.5 cursor-pointer group"
+              className="flex items-center gap-2 cursor-pointer group"
             >
-              <span className="font-outfit text-lg sm:text-xl font-black tracking-[0.22em] text-white group-hover:text-white transition-colors">
+              <span className="font-outfit text-base sm:text-xl font-black tracking-[0.22em] text-white transition-colors">
                 AETHERIS
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] inline-block mb-1 shadow-[0_0_8px_#ff0055]" />
             </div>
 
-            {/* Center: Navigation Links */}
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8 lg:gap-10 font-outfit text-xs font-semibold tracking-[0.2em]">
               {[
                 { id: 'overview', label: 'OVERVIEW' },
@@ -221,12 +218,12 @@ export default function Home() {
               ))}
             </nav>
 
-            {/* Right: Consultation Pill Button with Subtle Neon Red Glow */}
+            {/* Consultation Pill */}
             <div className="flex items-center">
               <button
                 onClick={() => scrollTo('architecture')}
                 onMouseEnter={() => sound.playHover()}
-                className="pill-cta-red cursor-pointer flex items-center gap-2"
+                className="pill-cta-red cursor-pointer flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm px-3.5 sm:px-5 py-1.5"
               >
                 <span>Consultation</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -235,25 +232,25 @@ export default function Home() {
           </header>
         </div>
 
-        {/* ── SCROLLABLE INTERNAL CONTENT CONTAINER (WITH TOP PADDING TO AVOID HEADER OVERLAP) ── */}
+        {/* SCROLLABLE INTERNAL CONTAINER */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="relative z-20 w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth framed-scroll pt-24 sm:pt-28"
+          className="relative z-20 w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth framed-scroll pt-20 sm:pt-28"
         >
-          {/* ══════════════════════════════════════════════════════════════
-              SECTION 1: HERO VIEWPORT
-              ══════════════════════════════════════════════════════════════ */}
+          {/* SECTION 1: HERO VIEWPORT */}
           <section
             id="hero"
-            className="relative w-full min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-10 px-6 sm:px-12 lg:px-16 overflow-hidden select-none pointer-events-none"
+            className="relative w-full min-h-[calc(100dvh-5.5rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-8 sm:pb-10 px-4 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* Ethereal Backdrop Massive Typography */}
-            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-              <h1 className="reference-backdrop-text">AETHERIS</h1>
+            {/* Backdrop Typography: Fluid clamping prevents side clipping */}
+            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-4">
+              <h1 className="reference-backdrop-text text-[15vw] sm:text-[14vw] lg:text-[170px] whitespace-nowrap tracking-tighter opacity-15 select-none font-black text-center max-w-full">
+                AETHERIS
+              </h1>
             </div>
 
-            {/* Margin Metadata Left & Right */}
+            {/* Margin Metadata (Desktop Only) */}
             <div className="absolute left-6 top-1/2 -translate-y-1/2 z-20 hidden lg:flex items-center pointer-events-none">
               <span className="vertical-year-text">2026 // SYSTEM V4.8</span>
             </div>
@@ -263,19 +260,19 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Hero Center Placeholder (3D Bot occupies the visual stage) */}
-            <div className="flex-1 w-full" />
+            {/* Spacing element for 3D stage */}
+            <div className="flex-1 w-full min-h-[160px] sm:min-h-[220px]" />
 
             {/* Hero Bottom Information Bar */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pointer-events-auto">
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-5 sm:gap-6 bg-gradient-to-t from-[#08080c] via-[#08080c]/85 to-transparent md:bg-transparent p-4 md:p-0 rounded-2xl md:rounded-none backdrop-blur-sm md:backdrop-blur-none border border-white/5 md:border-none">
               <div className="max-w-xl">
-                <div className="flex items-center gap-2 mb-2 text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055]" />
+                <div className="flex items-center gap-2 mb-2 text-[10px] sm:text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
                   <span className="font-semibold text-white/90">
                     AUTONOMOUS SYSTEMS // COGNITIVE DIGITAL ARCHITECTURE
                   </span>
                 </div>
-                <h2 className="font-outfit text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight mb-2">
+                <h2 className="font-outfit text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
                   ENGINEERING SELF-GOVERNING ENTERPRISE INTELLIGENCE.
                 </h2>
                 <p className="font-outfit text-xs sm:text-sm text-[#94a3b8] leading-relaxed">
@@ -283,11 +280,11 @@ export default function Home() {
                 </p>
               </div>
 
-              <div>
+              <div className="w-full sm:w-auto">
                 <button
                   onClick={() => scrollTo('overview')}
                   onMouseEnter={() => sound.playHover()}
-                  className="glass-action-pill group cursor-pointer"
+                  className="glass-action-pill group cursor-pointer w-full sm:w-auto justify-center"
                 >
                   <span>Explore Solutions</span>
                   <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -298,21 +295,19 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ══════════════════════════════════════════════════════════════
-              SECTION 2: OVERVIEW & CORE CAPABILITIES
-              ══════════════════════════════════════════════════════════════ */}
+          {/* SECTION 2: OVERVIEW & CORE CAPABILITIES */}
           <section
             id="overview"
-            className="relative w-full py-20 sm:py-24 px-6 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-28 sm:scroll-mt-32 pointer-events-none"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
           >
-            <div className="max-w-6xl mx-auto flex flex-col gap-12">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-auto">
+            <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="max-w-2xl">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>01 // SYSTEM OVERVIEW</span>
                   </div>
-                  <h2 className="font-outfit text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                  <h2 className="font-outfit text-2xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                     Cognitive Capabilities for{' '}
                     <span className="bg-gradient-to-r from-white via-[#e2e8f0] to-[#ff0055] bg-clip-text text-transparent">
                       Sovereign Scale.
@@ -324,13 +319,13 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* 3 Apple-Style Frosted Liquid Glass Cards */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pointer-events-auto">
+              {/* Frosted Liquid Glass Cards */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {CAPABILITIES.map((cap) => (
                   <div
                     key={cap.num}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-7 sm:p-8 flex flex-col justify-between group"
+                    className="apple-glass-card p-6 sm:p-8 flex flex-col justify-between group"
                   >
                     <div>
                       <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-4">
@@ -373,12 +368,12 @@ export default function Home() {
                         {cap.metrics.map((m, idx) => (
                           <div
                             key={idx}
-                            className="p-2.5 rounded-xl bg-black/50 border border-white/5 flex flex-col items-center text-center"
+                            className="p-2 sm:p-2.5 rounded-xl bg-black/50 border border-white/5 flex flex-col items-center text-center"
                           >
-                            <span className="font-outfit font-black text-white text-sm">
+                            <span className="font-outfit font-black text-white text-xs sm:text-sm">
                               {m.val}
                             </span>
-                            <span className="font-space text-[9px] text-[#94a3b8] leading-tight mt-0.5">
+                            <span className="font-space text-[8px] sm:text-[9px] text-[#94a3b8] leading-tight mt-0.5">
                               {m.label}
                             </span>
                           </div>
@@ -399,21 +394,19 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ══════════════════════════════════════════════════════════════
-              SECTION 3: FLAGSHIP ENTERPRISE SOLUTIONS
-              ══════════════════════════════════════════════════════════════ */}
+          {/* SECTION 3: FLAGSHIP ENTERPRISE SOLUTIONS */}
           <section
             id="solutions"
-            className="relative w-full py-20 sm:py-24 px-6 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-28 sm:scroll-mt-32 pointer-events-none"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
           >
-            <div className="max-w-6xl mx-auto flex flex-col gap-12">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-auto">
+            <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div className="max-w-2xl">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>02 // ENTERPRISE PLATFORMS</span>
                   </div>
-                  <h2 className="font-outfit text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                  <h2 className="font-outfit text-2xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                     Production-Grade AI{' '}
                     <span className="bg-gradient-to-r from-white via-[#e2e8f0] to-[#ff0055] bg-clip-text text-transparent">
                       Workload Mesh.
@@ -425,13 +418,13 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* 3 Executive Solution Cards */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pointer-events-auto">
+              {/* Solution Cards */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {SOLUTIONS.map((sol) => (
                   <div
                     key={sol.code}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-7 sm:p-8 flex flex-col justify-between group"
+                    className="apple-glass-card p-6 sm:p-8 flex flex-col justify-between group"
                   >
                     <div>
                       <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-3">
@@ -474,17 +467,15 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ══════════════════════════════════════════════════════════════
-              SECTION 4: ARCHITECTURE REVIEW & CONSULTATION
-              ══════════════════════════════════════════════════════════════ */}
+          {/* SECTION 4: ARCHITECTURE REVIEW & CONSULTATION */}
           <section
             id="architecture"
-            className="relative w-full py-20 sm:py-24 px-6 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-28 sm:scroll-mt-32 pointer-events-none"
+            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-24 sm:scroll-mt-32"
           >
-            <div className="max-w-5xl mx-auto w-full flex flex-col gap-14">
+            <div className="max-w-5xl mx-auto w-full flex flex-col gap-10 sm:gap-14">
               {/* Verified Metrics Row */}
               <div>
-                <div className="text-center max-w-xl mx-auto mb-8 pointer-events-auto">
+                <div className="text-center max-w-xl mx-auto mb-8">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>03 // MEASURED ENTERPRISE IMPACT</span>
@@ -494,26 +485,26 @@ export default function Home() {
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pointer-events-auto">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   {VERIFIED_METRICS.map((m, idx) => {
                     const Icon = m.icon;
                     return (
                       <div
                         key={idx}
-                        className="apple-glass-card p-6 flex flex-col justify-between"
+                        className="apple-glass-card p-4 sm:p-6 flex flex-col justify-between"
                       >
                         <div>
-                          <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-3 text-[#ff0055]">
-                            <Icon className="w-4 h-4" />
+                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-2.5 sm:mb-3 text-[#ff0055]">
+                            <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                           </div>
-                          <div className="font-outfit text-3xl font-black text-white mb-1">
+                          <div className="font-outfit text-2xl sm:text-3xl font-black text-white mb-1">
                             {m.value}
                           </div>
                           <div className="font-outfit text-xs sm:text-sm font-bold text-[#e2e8f0] mb-1">
                             {m.label}
                           </div>
                         </div>
-                        <div className="font-space text-[11px] text-[#94a3b8] mt-2 pt-2 border-t border-white/5">
+                        <div className="font-space text-[10px] sm:text-[11px] text-[#94a3b8] mt-2 pt-2 border-t border-white/5">
                           {m.sub}
                         </div>
                       </div>
@@ -522,14 +513,14 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Executive Architecture Review Booking Card */}
-              <div className="apple-glass-card p-8 sm:p-12 relative overflow-hidden pointer-events-auto">
-                <div className="text-center mb-10 relative z-10">
+              {/* Consultation Booking Card */}
+              <div className="apple-glass-card p-6 sm:p-12 relative overflow-hidden">
+                <div className="text-center mb-8 sm:mb-10 relative z-10">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
                     <Lock className="w-3 h-3 text-[#ff0055]" />
                     <span>CONFIDENTIAL ARCHITECTURE BRIEFING</span>
                   </div>
-                  <h3 className="font-outfit text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
+                  <h3 className="font-outfit text-xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
                     Initialize Your Autonomous{' '}
                     <span className="bg-gradient-to-r from-white via-[#e2e8f0] to-[#ff0055] bg-clip-text text-transparent">
                       Enterprise Mesh.
@@ -541,11 +532,11 @@ export default function Home() {
                 </div>
 
                 {!booked ? (
-                  <form onSubmit={handleSubmit} className="relative z-10 space-y-6 font-space">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <form onSubmit={handleSubmit} className="relative z-10 space-y-5 sm:space-y-6 font-space">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                       <div>
                         <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
-                          Executive Name &amp; Title
+                          Executive Name & Title
                         </label>
                         <input
                           type="text"
@@ -553,7 +544,7 @@ export default function Home() {
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Elena Vance, VP of AI Infrastructure"
-                          className="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
+                          className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
                         />
                       </div>
                       <div>
@@ -566,7 +557,7 @@ export default function Home() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="e.vance@enterprise.com"
-                          className="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
+                          className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
                         />
                       </div>
                     </div>
@@ -576,7 +567,7 @@ export default function Home() {
                       <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
                         Target Autonomous Fleet Scale
                       </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                         {FLEET_SCALES.map((s) => (
                           <button
                             type="button"
@@ -585,7 +576,7 @@ export default function Home() {
                               setFleet(s);
                               sound.playClick();
                             }}
-                            className={`px-4 py-3 rounded-xl text-xs text-left transition-all border cursor-pointer ${
+                            className={`px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs text-left transition-all border cursor-pointer ${
                               fleet === s
                                 ? 'bg-[#ff0055]/15 border-[#ff0055] text-white shadow-[0_0_15px_rgba(255,0,85,0.3)] font-bold'
                                 : 'bg-black/40 border-white/10 text-[#94a3b8] hover:border-white/20'
@@ -605,7 +596,7 @@ export default function Home() {
                       <select
                         value={deploy}
                         onChange={(e) => setDeploy(e.target.value)}
-                        className="w-full px-4 py-3.5 rounded-xl bg-black/60 border border-white/10 text-white text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit cursor-pointer"
+                        className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit cursor-pointer"
                       >
                         {DEPLOY_TARGETS.map((t) => (
                           <option key={t} value={t} className="bg-[#08080c] text-white">
@@ -621,7 +612,7 @@ export default function Home() {
                         type="submit"
                         disabled={submitting}
                         onMouseEnter={() => sound.playHover()}
-                        className="w-full py-4 rounded-full font-outfit text-sm font-bold tracking-wider uppercase bg-white hover:bg-[#ff0055] text-black hover:text-white shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,0,85,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3.5 sm:py-4 rounded-full font-outfit text-xs sm:text-sm font-bold tracking-wider uppercase bg-white hover:bg-[#ff0055] text-black hover:text-white shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,0,85,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
                       >
                         {submitting ? (
                           <>
@@ -639,24 +630,23 @@ export default function Home() {
                     </div>
                   </form>
                 ) : (
-                  /* Confirmed State */
                   <div className="relative z-10 py-6 text-center space-y-6">
-                    <div className="w-16 h-16 rounded-2xl bg-[#ff0055]/15 border border-[#ff0055]/40 mx-auto flex items-center justify-center text-[#ff0055] shadow-[0_0_25px_rgba(255,0,85,0.3)]">
-                      <CheckCircle2 className="w-9 h-9" />
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#ff0055]/15 border border-[#ff0055]/40 mx-auto flex items-center justify-center text-[#ff0055] shadow-[0_0_25px_rgba(255,0,85,0.3)]">
+                      <CheckCircle2 className="w-8 h-8 sm:w-9 sm:h-9" />
                     </div>
                     <div>
                       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff0055]/20 text-[#ff0055] text-xs font-semibold mb-2">
                         CONFIDENTIAL REVIEW DISPATCHED
                       </div>
-                      <h3 className="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
+                      <h3 className="font-outfit text-xl sm:text-3xl font-extrabold text-white">
                         Architecture Review Confirmed
                       </h3>
-                      <p className="text-[#94a3b8] text-sm max-w-md mx-auto mt-2 font-space">
+                      <p className="text-[#94a3b8] text-xs sm:text-sm max-w-md mx-auto mt-2 font-space">
                         Welcome to the mesh, <strong className="text-white">{name || 'Executive'}</strong>. A dedicated Autonomous Systems Architect has been provisioned.
                       </p>
                     </div>
 
-                    <div className="max-w-md mx-auto p-5 rounded-xl bg-black/60 border border-white/10 font-space text-xs text-left space-y-2">
+                    <div className="max-w-md mx-auto p-4 sm:p-5 rounded-xl bg-black/60 border border-white/10 font-space text-xs text-left space-y-2">
                       <div className="flex justify-between">
                         <span className="text-[#94a3b8]">BOOKING REF:</span>
                         <span className="text-[#ff0055] font-bold">{bookingRef}</span>
@@ -677,7 +667,7 @@ export default function Home() {
 
                     <button
                       onClick={resetForm}
-                      className="px-6 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-outfit text-white hover:text-[#ff0055] transition-colors inline-flex items-center gap-2 cursor-pointer"
+                      className="px-5 sm:px-6 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-outfit text-white hover:text-[#ff0055] transition-colors inline-flex items-center gap-2 cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       <span>Configure Another Cluster</span>
@@ -686,12 +676,12 @@ export default function Home() {
                 )}
 
                 {/* Compliance Badges */}
-                <div className="relative z-10 mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center font-space text-xs text-[#94a3b8]">
+                <div className="relative z-10 mt-8 sm:mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center font-space text-xs text-[#94a3b8]">
                   {TRUST_BADGES.map(({ icon: Icon, label, sub }) => (
                     <div key={label} className="flex flex-col items-center gap-1">
-                      <Icon className="w-4 h-4 text-[#ff0055]" />
-                      <span className="text-white font-bold">{label}</span>
-                      <span className="text-[11px] text-[#94a3b8]">{sub}</span>
+                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#ff0055]" />
+                      <span className="text-white font-bold text-[11px] sm:text-xs">{label}</span>
+                      <span className="text-[10px] sm:text-[11px] text-[#94a3b8]">{sub}</span>
                     </div>
                   ))}
                 </div>
@@ -699,10 +689,8 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ══════════════════════════════════════════════════════════════
-              FOOTER (INSIDE FRAMED CONTAINER)
-              ══════════════════════════════════════════════════════════════ */}
-          <footer className="relative z-30 border-t border-white/5 py-10 px-6 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8] pointer-events-auto">
+          {/* FOOTER */}
+          <footer className="relative z-30 border-t border-white/5 py-8 sm:py-10 px-4 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8]">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#ff0055] to-white p-[1px] flex items-center justify-center">
@@ -715,18 +703,18 @@ export default function Home() {
                     AETHERIS SYSTEMS CORP.
                   </div>
                   <div className="text-[10px] text-[#94a3b8]">
-                    Autonomous Digital Infrastructure &copy; 2026
+                    Autonomous Digital Infrastructure © 2026
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-5 text-xs text-[#cbd5e1]">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 text-xs text-[#cbd5e1]">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#ff0055] animate-pulse shadow-[0_0_8px_#ff0055]" />
-                  <span className="text-white font-semibold">SOVEREIGN MESH ONLINE</span>
+                  <span className="text-white font-semibold text-xs">SOVEREIGN MESH ONLINE</span>
                 </div>
-                <span className="text-white/20">&bull;</span>
-                <span className="text-[#94a3b8]">UPTIME: 99.999%</span>
+                <span className="text-white/20 hidden sm:inline">•</span>
+                <span className="text-[#94a3b8] text-xs">UPTIME: 99.999%</span>
               </div>
 
               <button
