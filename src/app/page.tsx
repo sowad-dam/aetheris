@@ -1,4 +1,4 @@
-}'use client';
+'use client';
 
 import React, { useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -175,8 +175,8 @@ export default function Home() {
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Responsive scaling for 360px (Samsung) up to 4K */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-all -translate-y-20 sm:-translate-y-8 md:translate-y-0 scale-[0.78] sm:scale-95 md:scale-100">
+        {/* 3D CANVAS: Desktop e exact ager moto, mobile/samsung-e top e thakbe */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-all -translate-y-28 sm:-translate-y-8 md:translate-y-0 scale-[0.72] sm:scale-95 md:scale-100">
           <Hero3DObject />
         </div>
 
@@ -236,14 +236,14 @@ export default function Home() {
             id="hero"
             className="relative w-full min-h-[calc(100dvh-4.2rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-4 sm:pb-10 px-3 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* Backdrop Typography: 360px screen-e scale down kore overflow bondho kora hoyeche */}
-            <div className="absolute inset-x-0 top-[20%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-2">
-              <h1 className="reference-backdrop-text text-[9.5vw] sm:text-[13vw] lg:text-[170px] tracking-tight whitespace-nowrap opacity-15 select-none font-black text-center max-w-full">
+            {/* 1. Backdrop Typography: Fixed spacing for Samsung 360px without cutting */}
+            <div className="absolute inset-x-0 top-[18%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-1">
+              <h1 className="reference-backdrop-text text-[8.5vw] sm:text-[13vw] lg:text-[170px] tracking-tight whitespace-nowrap opacity-20 select-none font-black text-center max-w-full">
                 AETHERIS
               </h1>
             </div>
 
-            {/* Margin Metadata (Desktop) */}
+            {/* Desktop margin metadata */}
             <div className="absolute left-6 top-1/2 -translate-y-1/2 z-20 hidden lg:flex items-center pointer-events-none">
               <span className="vertical-year-text">2026 // SYSTEM V4.8</span>
             </div>
@@ -253,19 +253,21 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Spacer for 3D stage */}
-            <div className="flex-1 w-full min-h-[170px] sm:min-h-[240px] md:min-h-[220px]" />
+            {/* Robot View Space: Ensures robot body stays above the text */}
+            <div className="flex-1 w-full min-h-[200px] sm:min-h-[240px] md:min-h-[220px]" />
 
-            {/* Bottom Hero Card: Dedicated glass container for 360px Samsung screen */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-[#08080c]/85 md:bg-transparent p-3.5 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-xl md:backdrop-blur-none border border-white/10 md:border-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] md:shadow-none">
-              <div className="max-w-xl">
-                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 text-[9px] sm:text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
+            {/* 2 & 3. Hero Bottom Container: Dedicated Card Layout with separate pill box */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-[#08080c]/95 md:bg-transparent p-3.5 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-2xl md:backdrop-blur-none border border-white/10 md:border-none shadow-[0_15px_35px_rgba(0,0,0,0.9)] md:shadow-none">
+              <div className="max-w-xl w-full">
+                {/* ALADA BOX/BADGE for "AUTONOMOUS SYSTEMS // ARCHITECTURE" */}
+                <div className="inline-flex items-center gap-2 mb-2 px-2.5 py-1 rounded-lg bg-white/[0.05] border border-[#ff0055]/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
-                  <span className="font-semibold text-white/90">
-                    AUTONOMOUS SYSTEMS // COGNITIVE ARCHITECTURE
+                  <span className="text-[9px] sm:text-[11px] font-space tracking-wider uppercase font-semibold text-white/95">
+                    AUTONOMOUS SYSTEMS // ARCHITECTURE
                   </span>
                 </div>
-                <h2 className="font-outfit text-lg sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
+
+                <h2 className="font-outfit text-base sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
                   ENGINEERING SELF-GOVERNING ENTERPRISE INTELLIGENCE.
                 </h2>
                 <p className="font-outfit text-[11px] sm:text-sm text-[#94a3b8] leading-relaxed">
@@ -277,7 +279,7 @@ export default function Home() {
                 <button
                   onClick={() => scrollTo('overview')}
                   onMouseEnter={() => sound.playHover()}
-                  className="glass-action-pill group cursor-pointer w-full sm:w-auto justify-center py-2.5 sm:py-3 text-xs"
+                  className="glass-action-pill group cursor-pointer w-full sm:w-auto justify-center py-2 sm:py-3 text-xs"
                 >
                   <span>Explore Solutions</span>
                   <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center transition-transform group-hover:scale-110">
