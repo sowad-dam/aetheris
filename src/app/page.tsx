@@ -1,4 +1,4 @@
-'use client';
+}'use client';
 
 import React, { useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
@@ -10,7 +10,6 @@ import confetti from 'canvas-confetti';
 import { sound } from '@/lib/sound';
 import { scrollState } from '@/lib/scrollState';
 
-// Dynamic import with SSR false for Three.js canvas
 const Hero3DObject = dynamic(() => import('@/components/canvas/Hero3DObject'), {
   ssr: false,
   loading: () => null,
@@ -170,28 +169,28 @@ export default function Home() {
   return (
     <div
       id="framed-root"
-      className="w-full min-h-screen min-h-dvh h-screen h-dvh overflow-hidden bg-[#050508] flex items-center justify-center p-1.5 sm:p-4 lg:p-6 select-none"
+      className="w-full min-h-screen min-h-dvh h-screen h-dvh overflow-hidden bg-[#050508] flex items-center justify-center p-1 sm:p-4 lg:p-6 select-none"
     >
-      <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[20px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
+      <div className="w-full sm:w-[95vw] max-w-[1720px] h-full sm:h-[94vh] lg:h-[92vh] my-auto mx-auto rounded-[18px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden relative flex flex-col bg-[#08080c]/90 backdrop-blur-md hardware-composited-frame">
         <div className="ambient-red-bloom pointer-events-none" />
         <div className="ambient-platinum-bloom pointer-events-none" />
 
-        {/* 3D CANVAS: Mobile-e ektu upore ebong scale adjusted */}
-        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame md:opacity-100 transition-all -translate-y-12 sm:-translate-y-8 md:translate-y-0 scale-90 sm:scale-95 md:scale-100">
+        {/* 3D CANVAS: Responsive scaling for 360px (Samsung) up to 4K */}
+        <div className="absolute inset-0 pointer-events-none z-10 hardware-composited-frame transition-all -translate-y-20 sm:-translate-y-8 md:translate-y-0 scale-[0.78] sm:scale-95 md:scale-100">
           <Hero3DObject />
         </div>
 
-        {/* HEADER BAR */}
-        <div className="absolute top-3 sm:top-5 left-0 right-0 z-40 px-3 sm:px-8 flex justify-center pointer-events-none">
-          <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-4 sm:px-7 py-2.5 flex items-center justify-between">
+        {/* Header Bar */}
+        <div className="absolute top-2.5 sm:top-5 left-0 right-0 z-40 px-2.5 sm:px-8 flex justify-center pointer-events-none">
+          <header className="pointer-events-auto w-full max-w-4xl pill-header-bar px-3.5 sm:px-7 py-2 sm:py-2.5 flex items-center justify-between">
             <div
               onClick={() => scrollTo('hero')}
               className="flex items-center gap-2 cursor-pointer group"
             >
-              <span className="font-outfit text-base sm:text-xl font-black tracking-[0.22em] text-white transition-colors">
+              <span className="font-outfit text-sm sm:text-xl font-black tracking-[0.2em] sm:tracking-[0.22em] text-white transition-colors">
                 AETHERIS
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] inline-block mb-1 shadow-[0_0_8px_#ff0055]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] inline-block mb-0.5 shadow-[0_0_8px_#ff0055]" />
             </div>
 
             <nav className="hidden md:flex items-center gap-8 lg:gap-10 font-outfit text-xs font-semibold tracking-[0.2em]">
@@ -217,16 +216,16 @@ export default function Home() {
               <button
                 onClick={() => scrollTo('architecture')}
                 onMouseEnter={() => sound.playHover()}
-                className="pill-cta-red cursor-pointer flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm px-3.5 sm:px-5 py-1.5"
+                className="pill-cta-red cursor-pointer flex items-center gap-1 sm:gap-2 text-[11px] sm:text-sm px-3 sm:px-5 py-1.5"
               >
                 <span>Consultation</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </button>
             </div>
           </header>
         </div>
 
-        {/* SCROLLABLE CONTAINER */}
+        {/* Scrollable Container */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
@@ -235,11 +234,11 @@ export default function Home() {
           {/* SECTION 1: HERO VIEWPORT */}
           <section
             id="hero"
-            className="relative w-full min-h-[calc(100dvh-4.5rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-6 sm:pb-10 px-4 sm:px-12 lg:px-16 overflow-hidden select-none"
+            className="relative w-full min-h-[calc(100dvh-4.2rem)] sm:min-h-[calc(92vh-7rem)] flex flex-col justify-between pb-4 sm:pb-10 px-3 sm:px-12 lg:px-16 overflow-hidden select-none"
           >
-            {/* Backdrop Typography: Mobile-e fits perfectly */}
-            <div className="absolute inset-x-0 top-1/4 sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-2">
-              <h1 className="reference-backdrop-text text-[11vw] sm:text-[14vw] lg:text-[170px] tracking-tight sm:tracking-normal whitespace-nowrap opacity-15 select-none font-black text-center max-w-full">
+            {/* Backdrop Typography: 360px screen-e scale down kore overflow bondho kora hoyeche */}
+            <div className="absolute inset-x-0 top-[20%] sm:top-1/3 flex items-center justify-center z-10 pointer-events-none overflow-hidden px-2">
+              <h1 className="reference-backdrop-text text-[9.5vw] sm:text-[13vw] lg:text-[170px] tracking-tight whitespace-nowrap opacity-15 select-none font-black text-center max-w-full">
                 AETHERIS
               </h1>
             </div>
@@ -254,22 +253,22 @@ export default function Home() {
               <span className="text-[#ff0055] font-mono-t font-bold">ONLINE</span>
             </div>
 
-            {/* Mobile-e stage height adjust kora hoyeche jate robot dekha jay */}
-            <div className="flex-1 w-full min-h-[220px] sm:min-h-[260px] md:min-h-[220px]" />
+            {/* Spacer for 3D stage */}
+            <div className="flex-1 w-full min-h-[170px] sm:min-h-[240px] md:min-h-[220px]" />
 
-            {/* Bottom Hero Card */}
-            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-4 sm:gap-6 bg-black/60 md:bg-transparent p-4 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-md md:backdrop-blur-none border border-white/10 md:border-none shadow-xl md:shadow-none">
+            {/* Bottom Hero Card: Dedicated glass container for 360px Samsung screen */}
+            <div className="relative z-30 w-full flex flex-col md:flex-row items-start md:items-end justify-between gap-3.5 sm:gap-6 bg-[#08080c]/85 md:bg-transparent p-3.5 sm:p-5 md:p-0 rounded-2xl md:rounded-none backdrop-blur-xl md:backdrop-blur-none border border-white/10 md:border-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] md:shadow-none">
               <div className="max-w-xl">
-                <div className="flex items-center gap-2 mb-2 text-[10px] sm:text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 text-[9px] sm:text-[11px] font-space tracking-wider uppercase text-[#ff0055]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055] shrink-0" />
                   <span className="font-semibold text-white/90">
-                    AUTONOMOUS SYSTEMS // COGNITIVE DIGITAL ARCHITECTURE
+                    AUTONOMOUS SYSTEMS // COGNITIVE ARCHITECTURE
                   </span>
                 </div>
-                <h2 className="font-outfit text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
+                <h2 className="font-outfit text-lg sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug sm:leading-tight mb-2">
                   ENGINEERING SELF-GOVERNING ENTERPRISE INTELLIGENCE.
                 </h2>
-                <p className="font-outfit text-xs sm:text-sm text-[#94a3b8] leading-relaxed">
+                <p className="font-outfit text-[11px] sm:text-sm text-[#94a3b8] leading-relaxed">
                   We build custom multi-agent frameworks, proprietary LLM automation pipelines, and high-performance spatial digital products for market leaders.
                 </p>
               </div>
@@ -278,7 +277,7 @@ export default function Home() {
                 <button
                   onClick={() => scrollTo('overview')}
                   onMouseEnter={() => sound.playHover()}
-                  className="glass-action-pill group cursor-pointer w-full sm:w-auto justify-center"
+                  className="glass-action-pill group cursor-pointer w-full sm:w-auto justify-center py-2.5 sm:py-3 text-xs"
                 >
                   <span>Explore Solutions</span>
                   <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -292,12 +291,12 @@ export default function Home() {
           {/* SECTION 2: OVERVIEW */}
           <section
             id="overview"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
+            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
-            <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-6xl mx-auto flex flex-col gap-8 sm:gap-12">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6">
                 <div className="max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#ff0055] font-semibold mb-2.5 sm:mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>01 // SYSTEM OVERVIEW</span>
                   </div>
@@ -313,41 +312,41 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
                 {CAPABILITIES.map((cap) => (
                   <div
                     key={cap.num}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-6 sm:p-8 flex flex-col justify-between group"
+                    className="apple-glass-card p-5 sm:p-8 flex flex-col justify-between group"
                   >
                     <div>
-                      <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-4">
+                      <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-3 sm:mb-4">
                         <span className="font-bold tracking-widest text-[#ff0055]">
                           {cap.num} // ARCHITECTURE
                         </span>
                         <span className="text-white/40 font-mono-t">SYSTEM READY</span>
                       </div>
 
-                      <h3 className="font-outfit text-xl sm:text-2xl font-black text-white mb-2 tracking-tight group-hover:text-white transition-colors">
+                      <h3 className="font-outfit text-lg sm:text-2xl font-black text-white mb-2 tracking-tight group-hover:text-white transition-colors">
                         {cap.title}
                       </h3>
-                      <div className="text-[11px] font-space font-semibold tracking-wider text-[#cbd5e1] mb-4">
+                      <div className="text-[10px] sm:text-[11px] font-space font-semibold tracking-wider text-[#cbd5e1] mb-3 sm:mb-4">
                         {cap.tag}
                       </div>
 
-                      <p className="font-outfit text-xs sm:text-sm text-[#94a3b8] leading-relaxed mb-6">
+                      <p className="font-outfit text-xs sm:text-sm text-[#94a3b8] leading-relaxed mb-5 sm:mb-6">
                         {cap.desc}
                       </p>
 
-                      <div className="space-y-2 mb-6">
+                      <div className="space-y-2 mb-5 sm:mb-6">
                         <div className="text-[10px] font-space tracking-widest uppercase text-white/50">
                           Execution Specs:
                         </div>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {cap.specs.map((s) => (
                             <span
                               key={s}
-                              className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#e2e8f0]"
+                              className="px-2 sm:px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#e2e8f0]"
                             >
                               {s}
                             </span>
@@ -357,7 +356,7 @@ export default function Home() {
                     </div>
 
                     <div>
-                      <div className="grid grid-cols-3 gap-2 pt-4 border-t border-white/5 mb-4">
+                      <div className="grid grid-cols-3 gap-1.5 sm:gap-2 pt-3 sm:pt-4 border-t border-white/5 mb-3 sm:mb-4">
                         {cap.metrics.map((m, idx) => (
                           <div
                             key={idx}
@@ -390,12 +389,12 @@ export default function Home() {
           {/* SECTION 3: SOLUTIONS */}
           <section
             id="solutions"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
+            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
-            <div className="max-w-6xl mx-auto flex flex-col gap-10 sm:gap-12">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-6xl mx-auto flex flex-col gap-8 sm:gap-12">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6">
                 <div className="max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#ff0055] font-semibold mb-2.5 sm:mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>02 // ENTERPRISE PLATFORMS</span>
                   </div>
@@ -411,12 +410,12 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
                 {SOLUTIONS.map((sol) => (
                   <div
                     key={sol.code}
                     onMouseEnter={() => sound.playHover()}
-                    className="apple-glass-card p-6 sm:p-8 flex flex-col justify-between group"
+                    className="apple-glass-card p-5 sm:p-8 flex flex-col justify-between group"
                   >
                     <div>
                       <div className="flex items-center justify-between text-xs font-space text-[#94a3b8] mb-3">
@@ -426,19 +425,19 @@ export default function Home() {
                         <span className="text-white/40 font-mono-t">{sol.category}</span>
                       </div>
 
-                      <h3 className="font-outfit text-xl sm:text-2xl font-black text-white mb-3">
+                      <h3 className="font-outfit text-lg sm:text-2xl font-black text-white mb-2 sm:mb-3">
                         {sol.name}
                       </h3>
 
-                      <p className="font-outfit text-xs sm:text-sm text-[#cbd5e1] leading-relaxed mb-6">
+                      <p className="font-outfit text-xs sm:text-sm text-[#cbd5e1] leading-relaxed mb-5 sm:mb-6">
                         {sol.summary}
                       </p>
 
-                      <div className="flex flex-wrap gap-2 mb-6">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-5 sm:mb-6">
                         {sol.tags.map((t) => (
                           <span
                             key={t}
-                            className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#e2e8f0]"
+                            className="px-2 sm:px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#e2e8f0]"
                           >
                             {t}
                           </span>
@@ -448,7 +447,7 @@ export default function Home() {
 
                     <button
                       onClick={() => scrollTo('architecture')}
-                      className="w-full flex items-center justify-between pt-4 border-t border-white/10 text-xs font-outfit font-semibold text-white group-hover:text-[#ff0055] transition-colors cursor-pointer"
+                      className="w-full flex items-center justify-between pt-3 sm:pt-4 border-t border-white/10 text-xs font-outfit font-semibold text-white group-hover:text-[#ff0055] transition-colors cursor-pointer"
                     >
                       <span>Deploy to Enclave</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -462,12 +461,12 @@ export default function Home() {
           {/* SECTION 4: ARCHITECTURE & CONSULTATION */}
           <section
             id="architecture"
-            className="relative w-full py-16 sm:py-24 px-4 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-20 sm:scroll-mt-32"
+            className="relative w-full py-14 sm:py-24 px-3 sm:px-12 lg:px-16 border-t border-white/5 scroll-mt-16 sm:scroll-mt-32"
           >
-            <div className="max-w-5xl mx-auto w-full flex flex-col gap-10 sm:gap-14">
+            <div className="max-w-5xl mx-auto w-full flex flex-col gap-8 sm:gap-14">
               <div>
-                <div className="text-center max-w-xl mx-auto mb-8">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
+                <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#ff0055] font-semibold mb-2.5 sm:mb-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#ff0055] animate-pulse" />
                     <span>03 // MEASURED ENTERPRISE IMPACT</span>
                   </div>
@@ -476,26 +475,26 @@ export default function Home() {
                   </h2>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
                   {VERIFIED_METRICS.map((m, idx) => {
                     const Icon = m.icon;
                     return (
                       <div
                         key={idx}
-                        className="apple-glass-card p-4 sm:p-6 flex flex-col justify-between"
+                        className="apple-glass-card p-3.5 sm:p-6 flex flex-col justify-between"
                       >
                         <div>
-                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-2.5 sm:mb-3 text-[#ff0055]">
-                            <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center mb-2 sm:mb-3 text-[#ff0055]">
+                            <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
                           </div>
-                          <div className="font-outfit text-2xl sm:text-3xl font-black text-white mb-1">
+                          <div className="font-outfit text-xl sm:text-3xl font-black text-white mb-0.5 sm:mb-1">
                             {m.value}
                           </div>
-                          <div className="font-outfit text-xs sm:text-sm font-bold text-[#e2e8f0] mb-1">
+                          <div className="font-outfit text-[11px] sm:text-sm font-bold text-[#e2e8f0] mb-0.5 sm:mb-1">
                             {m.label}
                           </div>
                         </div>
-                        <div className="font-space text-[10px] sm:text-[11px] text-[#94a3b8] mt-2 pt-2 border-t border-white/5">
+                        <div className="font-space text-[9px] sm:text-[11px] text-[#94a3b8] mt-1.5 pt-1.5 border-t border-white/5">
                           {m.sub}
                         </div>
                       </div>
@@ -504,28 +503,28 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="apple-glass-card p-6 sm:p-12 relative overflow-hidden">
-                <div className="text-center mb-8 sm:mb-10 relative z-10">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-space text-[#ff0055] font-semibold mb-3">
+              <div className="apple-glass-card p-5 sm:p-12 relative overflow-hidden">
+                <div className="text-center mb-6 sm:mb-10 relative z-10">
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[10px] sm:text-[11px] font-space text-[#ff0055] font-semibold mb-2.5 sm:mb-3">
                     <Lock className="w-3 h-3 text-[#ff0055]" />
                     <span>CONFIDENTIAL ARCHITECTURE BRIEFING</span>
                   </div>
-                  <h3 className="font-outfit text-xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
+                  <h3 className="font-outfit text-lg sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
                     Initialize Your Autonomous{' '}
                     <span className="bg-gradient-to-r from-white via-[#e2e8f0] to-[#ff0055] bg-clip-text text-transparent">
                       Enterprise Mesh.
                     </span>
                   </h3>
-                  <p className="font-space text-xs sm:text-sm text-[#94a3b8] max-w-xl mx-auto leading-relaxed">
+                  <p className="font-space text-[11px] sm:text-sm text-[#94a3b8] max-w-xl mx-auto leading-relaxed">
                     Schedule a confidential briefing with Aetheris systems architects to design workload topology, fault tolerance, and compliance parameters.
                   </p>
                 </div>
 
                 {!booked ? (
-                  <form onSubmit={handleSubmit} className="relative z-10 space-y-5 sm:space-y-6 font-space">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                  <form onSubmit={handleSubmit} className="relative z-10 space-y-4 sm:space-y-6 font-space">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5">
                       <div>
-                        <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
+                        <label className="block text-[11px] sm:text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-1.5 sm:mb-2">
                           Executive Name & Title
                         </label>
                         <input
@@ -533,12 +532,12 @@ export default function Home() {
                           required
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          placeholder="Elena Vance, VP of AI Infrastructure"
-                          className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
+                          placeholder="Elena Vance, VP of AI"
+                          className="w-full px-3.5 py-2.5 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
+                        <label className="block text-[11px] sm:text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-1.5 sm:mb-2">
                           Corporate Email
                         </label>
                         <input
@@ -547,16 +546,16 @@ export default function Home() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="e.vance@enterprise.com"
-                          className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] focus:ring-1 focus:ring-[#ff0055]/50 transition-all font-outfit"
+                          className="w-full px-3.5 py-2.5 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
+                      <label className="block text-[11px] sm:text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-1.5 sm:mb-2">
                         Target Autonomous Fleet Scale
                       </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                         {FLEET_SCALES.map((s) => (
                           <button
                             type="button"
@@ -565,7 +564,7 @@ export default function Home() {
                               setFleet(s);
                               sound.playClick();
                             }}
-                            className={`px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl text-xs text-left transition-all border cursor-pointer ${
+                            className={`px-3 py-2 sm:px-4 sm:py-3 rounded-xl text-[11px] sm:text-xs text-left transition-all border cursor-pointer ${
                               fleet === s
                                 ? 'bg-[#ff0055]/15 border-[#ff0055] text-white shadow-[0_0_15px_rgba(255,0,85,0.3)] font-bold'
                                 : 'bg-black/40 border-white/10 text-[#94a3b8] hover:border-white/20'
@@ -578,13 +577,13 @@ export default function Home() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-2">
+                      <label className="block text-[11px] sm:text-xs font-semibold text-[#cbd5e1] uppercase tracking-wider mb-1.5 sm:mb-2">
                         Preferred Infrastructure Target
                       </label>
                       <select
                         value={deploy}
                         onChange={(e) => setDeploy(e.target.value)}
-                        className="w-full px-4 py-3 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit cursor-pointer"
+                        className="w-full px-3.5 py-2.5 sm:py-3.5 rounded-xl bg-black/60 border border-white/10 text-white text-xs sm:text-sm focus:outline-none focus:border-[#ff0055] transition-all font-outfit cursor-pointer"
                       >
                         {DEPLOY_TARGETS.map((t) => (
                           <option key={t} value={t} className="bg-[#08080c] text-white">
@@ -594,12 +593,12 @@ export default function Home() {
                       </select>
                     </div>
 
-                    <div className="pt-2">
+                    <div className="pt-1 sm:pt-2">
                       <button
                         type="submit"
                         disabled={submitting}
                         onMouseEnter={() => sound.playHover()}
-                        className="w-full py-3.5 sm:py-4 rounded-full font-outfit text-xs sm:text-sm font-bold tracking-wider uppercase bg-white hover:bg-[#ff0055] text-black hover:text-white shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,0,85,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3 sm:py-4 rounded-full font-outfit text-xs sm:text-sm font-bold tracking-wider uppercase bg-white hover:bg-[#ff0055] text-black hover:text-white shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,0,85,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         {submitting ? (
                           <>
@@ -617,9 +616,9 @@ export default function Home() {
                     </div>
                   </form>
                 ) : (
-                  <div className="relative z-10 py-6 text-center space-y-6">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#ff0055]/15 border border-[#ff0055]/40 mx-auto flex items-center justify-center text-[#ff0055] shadow-[0_0_25px_rgba(255,0,85,0.3)]">
-                      <CheckCircle2 className="w-8 h-8 sm:w-9 sm:h-9" />
+                  <div className="relative z-10 py-5 text-center space-y-5">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#ff0055]/15 border border-[#ff0055]/40 mx-auto flex items-center justify-center text-[#ff0055]">
+                      <CheckCircle2 className="w-7 h-7 sm:w-9 sm:h-9" />
                     </div>
                     <div>
                       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff0055]/20 text-[#ff0055] text-xs font-semibold mb-2">
@@ -633,7 +632,7 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="max-w-md mx-auto p-4 sm:p-5 rounded-xl bg-black/60 border border-white/10 font-space text-xs text-left space-y-2">
+                    <div className="max-w-md mx-auto p-3.5 sm:p-5 rounded-xl bg-black/60 border border-white/10 font-space text-xs text-left space-y-2">
                       <div className="flex justify-between">
                         <span className="text-[#94a3b8]">BOOKING REF:</span>
                         <span className="text-[#ff0055] font-bold">{bookingRef}</span>
@@ -648,13 +647,13 @@ export default function Home() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#94a3b8]">DISPATCH TO:</span>
-                        <span className="text-white truncate max-w-[200px]">{email}</span>
+                        <span className="text-white truncate max-w-[180px]">{email}</span>
                       </div>
                     </div>
 
                     <button
                       onClick={resetForm}
-                      className="px-5 sm:px-6 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-outfit text-white hover:text-[#ff0055] transition-colors inline-flex items-center gap-2 cursor-pointer"
+                      className="px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-outfit text-white hover:text-[#ff0055] transition-colors inline-flex items-center gap-2 cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       <span>Configure Another Cluster</span>
@@ -662,12 +661,12 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="relative z-10 mt-8 sm:mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center font-space text-xs text-[#94a3b8]">
+                <div className="relative z-10 mt-6 sm:mt-10 pt-5 sm:pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 text-center font-space text-xs text-[#94a3b8]">
                   {TRUST_BADGES.map(({ icon: Icon, label, sub }) => (
                     <div key={label} className="flex flex-col items-center gap-1">
                       <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#ff0055]" />
-                      <span className="text-white font-bold text-[11px] sm:text-xs">{label}</span>
-                      <span className="text-[10px] sm:text-[11px] text-[#94a3b8]">{sub}</span>
+                      <span className="text-white font-bold text-[10px] sm:text-xs">{label}</span>
+                      <span className="text-[9px] sm:text-[11px] text-[#94a3b8]">{sub}</span>
                     </div>
                   ))}
                 </div>
@@ -676,40 +675,40 @@ export default function Home() {
           </section>
 
           {/* FOOTER */}
-          <footer className="relative z-30 border-t border-white/5 py-8 sm:py-10 px-4 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8]">
-            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#ff0055] to-white p-[1px] flex items-center justify-center">
+          <footer className="relative z-30 border-t border-white/5 py-6 sm:py-10 px-3 sm:px-12 bg-black/40 font-space text-xs text-[#94a3b8]">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#ff0055] to-white p-[1px] flex items-center justify-center">
                   <div className="w-full h-full rounded-full bg-[#08080c] flex items-center justify-center">
-                    <span className="font-outfit font-black text-[10px] text-white">Æ</span>
+                    <span className="font-outfit font-black text-[9px] sm:text-[10px] text-white">Æ</span>
                   </div>
                 </div>
                 <div>
-                  <div className="font-outfit text-xs font-bold text-white tracking-[0.18em] uppercase">
+                  <div className="font-outfit text-[11px] sm:text-xs font-bold text-white tracking-[0.16em] uppercase">
                     AETHERIS SYSTEMS CORP.
                   </div>
-                  <div className="text-[10px] text-[#94a3b8]">
+                  <div className="text-[9px] sm:text-[10px] text-[#94a3b8]">
                     Autonomous Digital Infrastructure © 2026
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 text-xs text-[#cbd5e1]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#ff0055] animate-pulse shadow-[0_0_8px_#ff0055]" />
-                  <span className="text-white font-semibold text-xs">SOVEREIGN MESH ONLINE</span>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px] sm:text-xs text-[#cbd5e1]">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#ff0055] animate-pulse shadow-[0_0_8px_#ff0055]" />
+                  <span className="text-white font-semibold">SOVEREIGN MESH ONLINE</span>
                 </div>
                 <span className="text-white/20 hidden sm:inline">•</span>
-                <span className="text-[#94a3b8] text-xs">UPTIME: 99.999%</span>
+                <span className="text-[#94a3b8]">UPTIME: 99.999%</span>
               </div>
 
               <button
                 onClick={() => scrollTo('hero')}
                 onMouseEnter={() => sound.playHover()}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 text-xs font-outfit text-[#cbd5e1] hover:text-white hover:border-[#ff0055]/40 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/[0.04] border border-white/10 text-[11px] sm:text-xs font-outfit text-[#cbd5e1] hover:text-white transition-all cursor-pointer"
               >
                 <span>ASCEND TO CORE</span>
-                <ArrowUp className="w-3.5 h-3.5 text-[#ff0055]" />
+                <ArrowUp className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#ff0055]" />
               </button>
             </div>
           </footer>
